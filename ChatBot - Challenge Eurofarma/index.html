@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Eurofarma</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Chatbot - DataDivers</h1>
+    </div>
+    <div class="chat-container">
+        <div id="chat-box" class="chat-box">
+            <div class="message bot">Olá! Seja bem-vindo à Eurofarma! 🎉 Eu sou o seu assistente virtual e estou aqui para ajudá-lo no processo de integração. Como posso te ajudar hoje? 😊</div>
+            <div class="options">
+                <button onclick="showAnswer('Cultura')">Cultura da empresa</button>
+                <button onclick="showAnswer('Politicas')">Políticas e Regras</button>
+                <button onclick="showAnswer('Beneficios')">Benefícios e direitos</button>
+                <button onclick="showAnswer('Sistemas')">Sistemas internos</button>
+                <button onclick="showAnswer('Horario')">Horário de trabalho</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="expandedImg">
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
