@@ -1,5 +1,5 @@
 import { PencilLine } from 'phosphor-react';
-
+import { Avatar } from './Avatar';
 import styles from './Sidebar.module.css';
 
 import eurofarmaCapa from '../assets/eurofarma-capa.jpeg';
@@ -14,7 +14,7 @@ export function Sidebar() {
             />
 
             <div className={styles.profile}>
-                <img className={styles.avatar} src={fotoPerfil} />
+                <Avatar src={fotoPerfil} />
 
                 <strong>Thiago Ieffa</strong>
                 <span>Farmacêutico</span>

@@ -1,31 +1,106 @@
+import { Comment } from './Comment';
 import styles from './Post.module.css';
+import { Avatar } from './Avatar';
+import { useState } from 'react';
 
 import eurofarmaPerfil from '../assets/eurofarma-perfil.png';
 
-export function Post() {
+export function Post({ author, publishedAt, content }) {
+    const [comments, setComments] = useState([
+        'Muito obrigado e parabéns a todos que entraram pelo programa de contratação 2024, essa empresa é um sonho pra mim!'
+    ])
+
+    const [newCommentText, setNewCommentText] = useState('')
+
+  const publishedDateFormatted = new Intl.DateTimeFormat('pt-BR', {
+    day: '2-digit',
+    month: 'long',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(publishedAt);
+
+  function handleCreateNewComment() {
+    event.preventDefault()
+
+
+    setComments([...comments, newCommentText]);
+    setNewCommentText('');
+    
+  }
+
+  function handleNewCommentChange() {
+    event.target.setCustomValidity('')
+    setNewCommentText(event.target.value);
+  }
+
+  function handleNewCommentInvalid() {
+    event.target.setCustomValidity('Esse campo é obrigatório!');
+  }
+
+  function deleteComment(commentToDelete) {
+    const commentsWithoutDeletedOne = comments.filter(comment => {
+        return comment != commentToDelete;
+    })
+    setComments(commentsWithoutDeletedOne);
+  }
+
+  const isNewCommentEmpty = newCommentText.length == 0;
+
     return (
         <article className={styles.post}>
             <header>
                 <div className={styles.author}>
-                    <img className={styles.avatar} src={eurofarmaPerfil} />
+                    <Avatar src={author.avatar} />
                     <div className={styles.authorInfo}>
-                        <strong>Apoio Ao Colaborador</strong>
-                        <span>Recursos Humanos</span>
+                        <strong>{author.name}</strong>
+                        <span>{author.role}</span>
                     </div>
                </div>
 
-               <time title="24 de Agosto às 18:51h" dateTime="2024-08-24 18:51:00">Publicado há 1h</time>
+               <time>
+                {publishedDateFormatted}
+               </time>
             </header>
 
             <div className={styles.content}>
-                <p>Bem-vindo(a) à Eurofarma!</p>
-                <p>Estamos muito felizes por você ter escolhido fazer parte do nosso time. 
-                   Na Eurofarma, acreditamos que nosso maior ativo são as pessoas que, com seu talento e dedicação, contribuem para o nosso sucesso contínuo. 
-                   Nosso propósito é promover o acesso à saúde e bem-estar, e estamos certos de que você desempenhará um papel fundamental nessa missão.</p>
-                <p>Lembre-se, estamos aqui para apoiar você em cada etapa dessa jornada. Se precisar de qualquer ajuda, acesse o nosso chatbot:</p>
-                <p> ❤{' '} <a href="">Teste.com</a>{' '} </p>
-                <p> <a href="">#DataDivers #Eurofarma</a> </p>{' '}
+                {content.map(line => {
+                    if (line.type = 'paragraph') {
+                        return <p key={line.content}>{line.content}</p>;
+                    } else if (line.type = 'link') {
+                        return <p key={line.content}><a href = "#">{line.content}</a></p>;
+                    }
+                })}
             </div>
+
+            <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
+                <strong>Deixe seu feedback</strong>
+
+                <textarea
+                    name = "comment"
+                    placeholder="Deixe um comentário"
+                    value={newCommentText}
+                    onChange={handleNewCommentChange}
+                    onInvalid={handleNewCommentInvalid}
+                    required
+                />
+
+                <footer>
+                <button type="submit" disabled={isNewCommentEmpty}>Publicar</button>
+                </footer>
+            </form>
+
+            <div className={styles.commentList}>
+                {comments.map(comment => {
+                    return (
+                    <Comment
+                    key={comment}
+                    content={comment}
+                    onDeleteComment={deleteComment} 
+                    />
+                )
+                })}
+            </div>
+
         </article>
     );
 }

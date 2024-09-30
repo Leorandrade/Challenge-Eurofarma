@@ -5,8 +5,14 @@
     --preto: black;
     --azul-100: #1e3a8a;
     --azul-200: #172554;
+    --red-500: #F75A68;
 
 
+}
+
+:focus {
+    outline: transparent;
+    box-shadow: 0 0 0 2px var(--azul-100);
 }
 
 
